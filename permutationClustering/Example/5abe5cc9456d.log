@@ -1,0 +1,51 @@
+Loading required package: methods
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+[1] "AAAAAAAAAAAAA"
+[1] "ENTRO DENTRO SIMLR"
+Computing the multiple Kernels.
+Performing network diffiusion.
+Iteration:  1 
+Iteration:  2 
+Iteration:  3 
+Iteration:  4 
+Iteration:  5 
+Iteration:  6 
+Iteration:  7 
+Iteration:  8 
+Iteration:  9 
+Iteration:  10 
+Performing t-SNE.
+Epoch: Iteration # 100  error is:  0.1906235 
+Epoch: Iteration # 200  error is:  0.1533429 
+Epoch: Iteration # 300  error is:  0.1418167 
+Epoch: Iteration # 400  error is:  0.1365375 
+Epoch: Iteration # 500  error is:  0.1334512 
+Epoch: Iteration # 600  error is:  0.1314291 
+Epoch: Iteration # 700  error is:  0.1300842 
+Epoch: Iteration # 800  error is:  0.1291667 
+Epoch: Iteration # 900  error is:  0.1285486 
+Epoch: Iteration # 1000  error is:  0.1281085 
+Performing Kmeans.
+Performing t-SNE.
+Epoch: Iteration # 100  error is:  11.71315 
+Epoch: Iteration # 200  error is:  0.3234445 
+Epoch: Iteration # 300  error is:  0.2709425 
+Epoch: Iteration # 400  error is:  0.2592826 
+Epoch: Iteration # 500  error is:  0.2532224 
+Epoch: Iteration # 600  error is:  0.2491762 
+Epoch: Iteration # 700  error is:  0.2462446 
+Epoch: Iteration # 800  error is:  0.2439903 
+Epoch: Iteration # 900  error is:  0.242186 
+Epoch: Iteration # 1000  error is:  0.2407096 
+[1] "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+[1] "FINEEEEE"

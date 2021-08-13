@@ -1,0 +1,5 @@
+array <- commandArgs(trailingOnly = TRUE)
+source("skeleton_convertMtxScannoBy.R")
+library(rCASC)
+file=paste(getwd(),array[1],sep="/")
+convertMtxScannoBy(group="docker", scratch.folder=getwd(), file=file, separator=",")
