@@ -6,3 +6,5 @@ permutationClusteringSharp: docker.io/repbioinfo/permutationclusteringsharp
 permAnalysis: docker.io/repbioinfo/seuratanalysis
 comet: docker.io/repbioinfo/cometsc.2020.01
 autoencoder: repbioinfo/autoencoderforclusteringsw
+
+pseudoBulk: repbioinfo/autoencoderforpseudobulk
