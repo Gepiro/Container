@@ -30,8 +30,7 @@ index=argv$index
 perplexity=as.numeric(argv$perplexity)
 rK=argv$rK
  source("./../../../home/functions.R")
-if(separator=="tab"){separator="\t"} #BUG CORRECTION TAB separator PROBLEM 
-print("AAAAAAAAAAAAA")
+if(separator=="tab"){separator="\t"} #BUG CORRECTION TAB separator PROBLEM
 countMatrix=as.matrix(read.table(paste("./data/",matrixName,".",format,sep=""),sep=separator,header=TRUE,row.names=1))
 killedCell=sample(ncol(countMatrix),(ncol(countMatrix)*percent/100))
 countMatrix=countMatrix[,-killedCell]
@@ -39,7 +38,6 @@ if(logTen==0){countMatrix=log10(countMatrix+1)}
 
 switch(clusteringMethod, 
 SIMLR={
-print("ENTRO DENTRO SIMLR")
 if(rK==1){
  tt=try(simlrF2(countMatrix,nCluster,index))
  }else{ tt=try(simlrF(countMatrix,nCluster))}
