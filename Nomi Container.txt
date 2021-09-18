@@ -8,3 +8,4 @@ comet: docker.io/repbioinfo/cometsc.2020.01
 autoencoder: repbioinfo/autoencoderforclusteringsw
 
 pseudoBulk: repbioinfo/autoencoderforpseudobulk
+permutationClusteringSeurat: docker.io/repbioinfo/seuratpermutationsw
