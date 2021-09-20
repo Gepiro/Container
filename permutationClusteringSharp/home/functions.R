@@ -148,7 +148,7 @@ return(cbind(CellName=colnames(countMatrix),Belonging_Cluster=cluster_result$clu
 
  
  
-clustering=function(matrixName,nPerm,permAtTime,percent,nCluster,logTen,format,separator,clusteringMethod,perplexity,rK)
+clustering=function(matrixName,percent,nCluster,logTen,format,separator,clusteringMethod,perplexity,rK, index)
 {
 if(separator=="tab"){separator2="\t"}else{separator2=separator} #BUG CORRECTION TAB PROBLEM 
 
@@ -172,10 +172,10 @@ if(logTen==0){countMatrix=log10(countMatrix+1)}
 clustering.output=griphF(countMatrix)
 clustering.output=silhouette(nCluster,clustering.output)
 nCluster=max(clustering.output[,2])
-dir.create(paste("./",nCluster,sep=""))
-dir.create(paste("./",nCluster,"/Permutation",sep=""))
+dir.create(paste("./",index,sep=""))
+dir.create(paste("./",index,"/Permutation",sep=""))
 
-setwd(paste("./",nCluster,sep=""))
+setwd(paste("./",index,sep=""))
 },
 tSne={
 countMatrix=read.table(paste("./../",matrixName,".",format,sep=""),sep=separator2,header=TRUE,row.name=1)
@@ -186,63 +186,13 @@ clustering.output=silhouette(nCluster,clustering.output)
 )
 
 write.table(clustering.output,paste(matrixName,"_clustering.output.",format,sep=""),sep=separator2, row.names = F)
-cycles=nPerm/permAtTime
-for(i in 1:cycles){
-    system(paste("for X in $(seq ",permAtTime,")
-do
- nohup Rscript ./../../../home/permutation.R ",percent," ",matrixName," ",format," ",separator," ",logTen," ",clusteringMethod," ",nCluster," ",rK," ",perplexity," $(($X +",(i-1)*permAtTime," )) & 
-
-done"))
+    system(paste("nohup Rscript ./../../../home/permutation.R ",percent," ",matrixName," ",format," ",separator," ",logTen," ",clusteringMethod," ",nCluster," ",rK," ",perplexity," ",index," & "))
 d=1
-while(length(list.files("./Permutation",pattern=paste("*.",format,sep="")))!=i*permAtTime*2){
-if(d==1){cat(paste("Cluster number ",nCluster," ",((permAtTime*i))/nPerm*100," % complete \n"))}
+while(length(list.files("./Permutation",pattern=paste("*.",format,sep="")))<2){
+if(d==1){cat(paste("Cluster complete"))}
 d=2
 }
-
-system("echo 3 > /proc/sys/vm/drop_caches")
-system("sync")
-gc()
-}
-
-
-#write.table(as.matrix(sapply(list.files("./Permutation/",pattern="cluster*"),FUN=function(x){a=read.table(paste("./Permutation/",x,sep=""),header=TRUE,col.names=1,sep=separator2)[[1]]}),col.names=1),paste(matrixName,"_",nCluster,"_clusterP.",format,sep=""),sep=separator2,row.names=FALSE, quote=FALSE)
-#write.table(as.matrix(sapply(list.files("./Permutation/",pattern="killC*"),FUN=function(x){a=read.table(paste("./Permutation/",x,sep=""),header=TRUE,col.names=1,sep=separator2)[[1]]}),col.names=1),paste(matrixName,"_",nCluster,"_killedCell.",format,sep=""),sep=separator2,row.names=FALSE, quote=FALSE)
-
-cluster_p=sapply(list.files("./Permutation/",pattern="cluster*"),FUN=function(x){a=read.table(paste("./Permutation/",x,sep=""),header=TRUE,col.names=1,sep=separator2)[[1]]})
-killedC=sapply(list.files("./Permutation/",pattern="killC*"),FUN=function(x){a=read.table(paste("./Permutation/",x,sep=""),header=TRUE,col.names=1,sep=separator2)[[1]]})
-if(rK==1){
-pval=sapply(list.files("./Permutation/pvalue/",pattern="*"),FUN=function(x){a=read.table(paste("./Permutation/pvalue/",x,sep=""),header=FALSE,row.names=1,sep=separator2)[[1]]})
-}
-write.table(as.matrix(cluster_p,col.names=1),paste(matrixName,"_",nCluster,"_clusterP.",format,sep=""),sep=separator2,row.names=FALSE, quote=FALSE)
-write.table(as.matrix(killedC,col.names=1),paste(matrixName,"_",nCluster,"_killedCell.",format,sep=""),sep=separator2,row.names=FALSE, quote=FALSE)
-if(rK==1){
-write.table(as.matrix(pval,col.names=1),paste(matrixName,"_",nCluster,"_pvalList.",format,sep=""),sep=separator2,row.names=FALSE, quote=FALSE,col.names=FALSE)
-resultsPVAL=cbind(apply(pval,1,FUN=function(x){ci.mean(x)$upper - ci.mean(x)$lower}),rowMeans(pval), apply(pval,1,sd))
-colnames(resultsPVAL)=c("deltaConfidence","Mean","SD")
-
-pdf("geneRank.pdf")
-plot(resultsPVAL[,1],-log10(resultsPVAL[,2]),main="Rank Gene plot",ylab="- log10 Mean",xlab="Delta confidence",pch=20,col="blue")
-dev.off()
-}
-pdf("hist.pdf")
-clusters=apply(cluster_p,2,FUN=function(x){max(x)})
-hist(clusters,xlab="nCluster",breaks=length(unique(cluster_p)))
-dev.off()
-
-system("rm -r Permutation")
-
-switch(clusteringMethod, 
-SIMLR={
-  write(paste(" MatrixName: ",matrixName,"\n nPerm:",nPerm,"\n permAtTime:",permAtTime,"\n Percent:",percent,"\n Clusters:",nCluster,"\n Format:",format,"\n Separator:",separator,"\n log10",logTen,"\n Clustering Method:",clusteringMethod,"\n Perplexity:",perplexity),"log.txt")
-},
-griph={
-write(paste(" MatrixName: ",matrixName,"\n nPerm:",nPerm,"\n permAtTime:",permAtTime,"\n Percent:",percent,"\n Clusters:",nCluster,"\n Format:",format,"\n Separator:",separator,"\n log10",logTen,"\n Clustering Method:",clusteringMethod,"\n Perplexity:",perplexity),"log.txt")
 return(nCluster)
-},
-tSne={
-write(paste(" MatrixName: ",matrixName,"\n nPerm:",nPerm,"\n permAtTime:",permAtTime,"\n Percent:",percent,"\n Clusters:",nCluster,"\n Format:",format,"\n Separator:",separator,"\n log10",logTen,"\n Clustering Method:",clusteringMethod,"\n Perplexity:",perplexity),"log.txt")
-}
-)
 
 
 
@@ -258,13 +208,17 @@ relationMatrix=function(mainVector,nameVector){
 
 
 
-silhouettePlot=function(matrixName,rangeVector,format,separator){
+silhouettePlot=function(matrixName,rangeVector,format,separator, index){
 if(separator=="tab"){separator="\t"} #BUG CORRECTION TAB PROBLEM 
 count=1
 l=list()
+   if(length(rangeVector) > 1){
 for(i in rangeVector){
 l[[count]]=read.table(paste("./",i,"/",matrixName,"_clustering.output.",format,sep=""),sep=separator,header=TRUE)[,8]
 count=count+1
+}
+}else{
+l[[count]]=read.table(paste("./",index, "/",matrixName,"_clustering.output.",format,sep=""),sep=separator,header=TRUE)[,8]
 }
 pdf(paste(matrixName,"_vioplot.pdf",sep=""))
 do.call(vioplot,c(l,list(names=rangeVector)))

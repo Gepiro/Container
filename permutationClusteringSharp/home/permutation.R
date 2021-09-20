@@ -29,6 +29,7 @@ index=argv$index
 perplexity=as.numeric(argv$perplexity)
 rK=argv$rK
  source("./../../../home/functions.R")
+dir.create("./prova")
 if(separator=="tab"){separator="\t"} #BUG CORRECTION TAB separator PROBLEM 
 
 countMatrix=as.matrix(read.table(paste("./../",matrixName,".",format,sep=""),sep=separator,header=TRUE,row.names=1))
