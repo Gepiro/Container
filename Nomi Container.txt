@@ -2,7 +2,7 @@ cellrangerIndexing/cellrangerCount/h5: docker.io/repbioinfo/cellranger.2020.05
 scannoBy/convertMtxScannoBy: docker.io/repbioinfo/r332.2017.01
 topx: docker.io/repbioinfo/desc.2018.01
 permutationClustering: docker.io/repbioinfo/permutationclusteringsw
-permutationClusteringSharp: docker.io/repbioinfo/permutationclusteringsharp
+permutationClusteringSharp: docker.io/repbioinfo/permutationclusteringsharpsw
 permAnalysis: docker.io/repbioinfo/seuratanalysis
 comet: docker.io/repbioinfo/cometsc.2020.01
 autoencoder: repbioinfo/autoencoderforclusteringsw
