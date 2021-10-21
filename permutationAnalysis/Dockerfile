@@ -19,6 +19,7 @@ RUN apt-get -y install libpcre3-dev
 RUN aptitude -y install libreadline-dev
 RUN apt-get -y install libcurl4-openssl-dev
 RUN apt-get -y install tcl-dev tk-dev
+RUN chmod +x /tmp/configure
 RUN /tmp/configure --with-tcltk --with-tcl-config=/usr/lib/tclConfig.sh --with-tk-config=/usr/lib/tkConfig.sh
 RUN make
 RUN make install

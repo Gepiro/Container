@@ -14,6 +14,7 @@ RUN apt-get update \
     && apt-get install -y libpcre++-dev \
     && apt-get install -y libcurl4-openssl-dev \
     && aptitude install -y libreadline-dev \
+    && chmod +x /tmp/configure \
     && /tmp/configure \
     && make
 
@@ -39,6 +40,7 @@ RUN apt-get update \
 && apt-get install -y python3-dev
 COPY p7zip_16.02 /tmp/
 RUN cd /tmp/ && make
+RUN chmod +x /tmp/install.sh
 RUN cd /tmp/ && make install
 COPY Python-3.6.9.tar.gz /tmp/
 RUN tar -xzvf /tmp/Python-3.6.9.tar.gz

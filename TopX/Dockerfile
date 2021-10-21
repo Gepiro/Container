@@ -14,6 +14,7 @@ RUN apt-get update \
     && apt-get install -y libpcre++-dev \
     && apt-get install -y libcurl4-openssl-dev \
     && aptitude install -y libreadline-dev \
+    && chmod +x /tmp/configure \
     && /tmp/configure \
     && make
 

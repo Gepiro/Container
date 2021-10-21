@@ -22,14 +22,16 @@ RUN apt-get -y install libcurl4-openssl-dev
 
 
 COPY p7zip_16.02 /tmp/
-RUN cd /tmp/ && make
-RUN cd /tmp/ && make install
+RUN cd /tmp/ &&  make
+RUN chmod +x /tmp/install.sh
+RUN cd /tmp/ &&  make install
 RUN rm -r /tmp/*
 COPY R-3.3.2.7z* /tmp/
 RUN cd /tmp/ && 7za -y x "*.7z*" 
 RUN tar -xzvf /tmp/R-3.3.2/R-3.3.2.tar.gz
 COPY configure /R-3.3.2/configure
 
+RUN chmod +x /R-3.3.2/configure
 RUN cd /R-3.3.2/ && ./configure && make && make install
 #RUN make
 #RUN make install
