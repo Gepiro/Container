@@ -1,6 +1,7 @@
 FROM library/ubuntu:18.04 as UBUNTU_BASE
 MAINTAINER alessandri.luca1991@gmail.com
 ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update
 COPY ./R-3.3.1 /tmp
 RUN apt-get update
 RUN apt-get -y install gfortran
@@ -19,12 +20,13 @@ RUN apt-get update
 RUN apt-get install -y tcl
 RUN apt-get install -y tcl-dev
 RUN apt-get install -y tk-dev
+RUN chmod +x /tmp/configure
 RUN /tmp/configure --with-tcltk --with-tcl-config=/usr/lib/tclConfig.sh --with-tk-config=/usr/lib/tkConfig.sh
 RUN make
 RUN make install
 
 
-
+RUN apt-get update
 COPY /home/* /home/
 COPY p7zip_16.02 /tmp/
 RUN cd /tmp/ && make

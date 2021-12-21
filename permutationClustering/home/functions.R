@@ -298,7 +298,8 @@ return(cbind(clustering.output,extraScore,intraScore,neighbor,silhouetteValue))
   #//////////////////////////////////////////////////////////////////////////
 
  recorsiveSIMLR=function(matrixCount,nCluster){
- tt=try(SIMLR(matrixCount,nCluster,cores.ratio=1))
+ print("STEP D")
+ tt=try(SIMLR(matrixCount,nCluster,cores.ratio=0))
  print("BBBBBBBBBBBBBBBBB")
  if(class(tt)=="try-error"){
 tt=recorsiveSIMLR(matrixCount,nCluster)
@@ -324,6 +325,7 @@ return(tt)
  
  
 simlrF=function(matrixCount,nCluster){
+print("STEP C")
 cluster_result=recorsiveSIMLR(matrixCount,nCluster)
 return(cbind(CellName=colnames(matrixCount),Belonging_Cluster=cluster_result$y$cluster,xChoord=cluster_result$ydata[,1],yChoord=cluster_result$ydata[,2]))
 }
@@ -365,11 +367,12 @@ return(cbind(CellName=colnames(countMatrix),Belonging_Cluster=cluster_result$clu
  
 clustering=function(matrixName,nCluster,logTen,format,separator,clusteringMethod,perplexity) {
   if(separator=="tab"){separator2="\t"}else{separator2=separator} #BUG CORRECTION TAB PROBLEM
-
+  print("STEP B")
   switch(clusteringMethod,
   SIMLR={
   countMatrix=read.table(paste("./",matrixName,".",format,sep=""),sep=separator2,header=TRUE,row.name=1)
   if(logTen==0){countMatrix=log10(countMatrix+1)}
+  print("STEP A")
   clustering.output=simlrF(countMatrix,nCluster)
   clustering.output=silhouette(nCluster,clustering.output)
   },

@@ -34,9 +34,10 @@ dir.create(paste("./../scratch/",matrixName,sep=""))
 
 if(clusteringMethod == "SIMLR" || clusteringMethod == "tSne"){
   nCluster=as.numeric(argv$nCluster)
-
+  print("STEP TRY")
   system(paste("cp ","/scratch","/",matrixName,".",format," ","/scratch","/",matrixName,sep=""))
   setwd(paste("./../scratch/",matrixName,sep=""))
+  print("AAA")
   clustering(matrixName,nCluster,logTen,format,separator,clusteringMethod,perplexity)
   setwd("./../../../home")
   
