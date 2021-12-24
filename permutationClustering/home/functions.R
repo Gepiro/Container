@@ -298,8 +298,8 @@ return(cbind(clustering.output,extraScore,intraScore,neighbor,silhouetteValue))
   #//////////////////////////////////////////////////////////////////////////
 
  recorsiveSIMLR=function(matrixCount,nCluster){
- print("STEP D")
- tt=try(SIMLR(matrixCount,nCluster,cores.ratio=0))
+ print("STEP 0.5")
+ tt=try(SIMLR(matrixCount,nCluster,cores.ratio=0.5))
  print("BBBBBBBBBBBBBBBBB")
  if(class(tt)=="try-error"){
 tt=recorsiveSIMLR(matrixCount,nCluster)
